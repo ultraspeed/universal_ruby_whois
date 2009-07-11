@@ -278,6 +278,6 @@ Whois::Server.define(
 Whois::Server.define(
   %w(cx cm ht ki mu nf sb tl),
   'whois.nic.cx',
-  :registered => //im,
+  :registered => /Expires:/im,
   :free => /(Not Registered|No Applications Pending)/im
 )
