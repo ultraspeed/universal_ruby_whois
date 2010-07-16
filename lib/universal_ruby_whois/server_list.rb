@@ -12,6 +12,7 @@ Whois::Server.define('at', 'whois.nic.at')
 Whois::Server.define('bg', 'whois.digsys.bg')
 Whois::Server.define('bi', 'whois.nic.bi')
 Whois::Server.define('bj', 'www.nic.bj')
+Whois::Server.define('br', 'whois.nic.br')
 Whois::Server.define('bz', 'whois.belizenic.bz')
 Whois::Server.define('cc', 'whois.nic.cc')
 Whois::Server.define('cd', 'whois.nic.cd')
@@ -27,6 +28,7 @@ Whois::Server.define('hm', 'webhst1.capital.hm')
 Whois::Server.define('hu', 'whois.nic.hu')
 Whois::Server.define('id', 'whois.idnic.net.id')
 Whois::Server.define('in', 'whois.inregistry.net')
+Whois::Server.define('io', 'whois.nic.io')
 Whois::Server.define('ir', 'whois.nic.ir')
 Whois::Server.define('kz', 'whois.nic.kz')
 Whois::Server.define('la', 'whois2.afilias-grs.net')
@@ -35,14 +37,13 @@ Whois::Server.define('mc', 'whois.ripe.net')
 Whois::Server.define('ms', 'whois.nic.ms')
 Whois::Server.define('mx', 'whois.nic.mx')
 Whois::Server.define('my', 'whois.mynic.net.my')
-Whois::Server.define('nu', 'whois.nic.nu')
 Whois::Server.define('pl', 'whois.dns.pl')
 Whois::Server.define('pm', 'whois.nic.pm')
 Whois::Server.define('pro', 'whois.registrypro.pro')
 Whois::Server.define('pt', 'whois.nic.pt')
 Whois::Server.define('sa', 'saudinic.net.sa')
 Whois::Server.define('sb', 'whois.nic.net.sb')
-Whois::Server.define('se', 'whois.nic-se.se')
+Whois::Server.define('sh', 'whois.nic.sh')
 Whois::Server.define('si', 'whois.arnes.si')
 Whois::Server.define('sk', 'whois.sk-nic.sk')
 Whois::Server.define('sm', 'whois.ripe.net')
@@ -99,7 +100,6 @@ Whois::Server.define(
   :registered => /Domain Information\:/im,
   :free => /No match\!\!/im
 )
-
 Whois::Server.define(
   %w(es com.es nom.es org.es gob.es edu.es),
   ['https://www.nic.es/esnic/servlet/BuscarDomSolAlta', :post, { :Submit => 'Buscar', :domino => '%DOMAIN_NO_TLD%',
@@ -107,20 +107,17 @@ Whois::Server.define(
   :registered => [%q{%DOMAIN% </a> </th> <td class="disp"> <img src="../images/icon_disp_no.gif" alt="no" />}, 'im'],
   :free => [%q{%DOMAIN% </a> </th> <td class="disp"> <img src="../images/icon_disp_yes.gif" alt="si" />}, 'im']
 )
-
 # By leaving out the whois server, we force it to follow the internic redirection.
 Whois::Server.define(
   [ 'com', 'net', 'edu' ], nil,
   :registered => /No match for/im.invert!,
   :free => /No match for/im
 )
-
 Whois::Server.define(
   'gov', 'whois.nic.gov',
   :registered => /Status:\s*Active/im,
   :free => /Status:\s*Active/im.invert!
 )
-
 Whois::Server.define(
   %w(asn.au com.au id.au net.au org.au), 
   'whois.ausregistry.net.au',
@@ -147,7 +144,7 @@ Whois::Server.define(
   'whois.centralnic.net',
   :free => /available for registration/im,
   :registered => /Domain Name\:/im
-  )
+)
 Whois::Server.define(
   'be',
   'whois.dns.be',
@@ -184,8 +181,8 @@ Whois::Server.define(
 Whois::Server.define(
   'eu',
   'whois.eu',
-  :free => /AVAILABLE/im,
-  :registered => /REGISTERED/im,
+  :free => /Nameservers\:/im.invert!,
+  :registered => /Nameservers\:/im,
   :pending => /APPLICATION PENDING/im,
   :error => /NOT ALLOWED/im
 )
@@ -203,12 +200,13 @@ Whois::Server.define(
   :preserved => /Not available for second level registration./im,
   :free => /No match./im
 )
-Whois::Server.define(
-  'net',
-  'whois.verisign-grs.com',
-  :registered => /Domain Name:/im,
-  :free => /No match for/im
-)
+
+# Whois::Server.define(
+#   'net',
+#   'whois.verisign-grs.com',
+#   :registered => /Domain Name:/im,
+#   :free => /No match for/im
+# )
 Whois::Server.define(
   'nl',
   'whois.domain-registry.nl',
@@ -253,9 +251,10 @@ Whois::Server.define(
 )
 Whois::Server.define(
   'mobi',
-  'whois.corenic.net',
-  :registered => /Domain ID:/im,
-  :free => /NOT FOUND/m
+#  'whois.corenic.net',
+  'whois.dotmobiregistry.net',
+  :registered => /is not registered/im.invert!,
+  :free => /is not registered/im
 )
 Whois::Server.define(
   'ca',
